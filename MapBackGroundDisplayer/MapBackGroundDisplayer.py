@@ -6,7 +6,7 @@ import sys, json, random, os
 font = ImageFont.truetype("/usr/share/fonts/TTF/DejaVuSans-BoldOblique.ttf", 20)
 font2 = ImageFont.truetype("/usr/share/fonts/TTF/DejaVuSans-BoldOblique.ttf", 21)
 
-with open('../cities.json') as f:
+with open('../cities.json/cities.json') as f:
     cities = json.load(f)
 
 tk_instance=tk.Tk()
@@ -17,7 +17,7 @@ pip_image_height = 200
 
 random_city = cities[random.randint(0,len(cities))]
 random_city_name = random_city['name']
-random_city_country = random_city['country']
+random_city_country = random_city['country_name']
 tile_url="https://tile.thunderforest.com/landscape/{z}/{x}/{y}.png?apikey=125aa6ccc74f432ea81716925aa374ca"
 
 unrendered_map=StaticMap(screen_width, screen_height, 200,200, url_template=tile_url)
@@ -35,7 +35,7 @@ add_markers(unrendered_map,0.02)
 add_markers(tiny_map,2)
 
 def save_map(map_to_save, name, tiny_map):
-    path_str="./thecityof%smap.jpg" % name 
+    path_str="./citymaps/thecityof%smap.jpg" % name 
     tmp_str ="/tmp/Thumb.jpg" 
     ready_map = map_to_save.render()
     ready_map.save(path_str)
@@ -59,6 +59,5 @@ def save_map(map_to_save, name, tiny_map):
     img.paste(pip_img, (100,500))
     print("saving")
     img.save(path_str)
-    os.system("nitrogen --set-auto  %s" % path_str)
     
 save_map(unrendered_map, random_city_name, tiny_map)
