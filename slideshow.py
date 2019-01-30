@@ -62,5 +62,5 @@ if __name__ == '__main__':
     sprite = pyglet.sprite.Sprite(img)
     sprite.scale = get_scale(window, img)
     pyglet.clock.schedule_interval(update_image, 10)
-    pyglet.clock.schedule_interval(update_city, 100)
+    pyglet.clock.schedule_interval(update_city, 300)
     pyglet.app.run()
