@@ -8,12 +8,14 @@
 
 import argparse
 import random
-import os
+import os,pdb
 import glob
 import pyglet
 
 cities = glob.glob("./citymaps/*/")
-
+city = random.choice(cities)
+images = ["1.jpg","2.jpg","3.jpg","6.jpg"]
+image_pos = 0
 
 def update_pan_zoom_speeds():
     global _pan_speed_x
@@ -33,25 +35,22 @@ def update_pan(dt):
 def update_zoom(dt):
     sprite.scale += dt * _zoom_speed
 
+def update_city(dt):
+    city = random.choice(cities)
 
 def update_image(dt):
-    img = pyglet.image.load(random.choice(image_paths))
+    global image_pos
+    img = pyglet.image.load(city+images[image_pos])
     sprite.image = img
     sprite.scale = get_scale(window, img)
     sprite.x = 0
     sprite.y = 0
     update_pan_zoom_speeds()
+    if image_pos > 2:
+        image_pos = 0
+    else: 
+        image_pos += 1
     window.clear()
-
-
-def get_image_paths(input_dir='.'):
-    paths = []
-    for root, dirs, files in os.walk(input_dir, topdown=True):
-        for file in sorted(files):
-            if file.endswith(('jpg', 'png', 'gif')):
-                path = os.path.abspath(os.path.join(root, file))
-                paths.append(path)
-    return paths
 
 
 def get_scale(window, image):
@@ -71,13 +70,12 @@ def on_draw():
 
 
 if __name__ == '__main__':
-    _pan_speed_x, _pan_speed_y, _zoom_speed = update_pan_zoom_speeds()
 
-    image_paths = get_image_paths(random.choice(cities))
-    img = pyglet.image.load(random.choice(image_paths))
+    image_pos = 0
+    img = pyglet.image.load(city+images[image_pos])
+    image_pos+=1
     sprite = pyglet.sprite.Sprite(img)
     sprite.scale = get_scale(window, img)
-
-    pyglet.clock.schedule_interval(update_image, 6.0)
-
+    pyglet.clock.schedule_interval(update_image, 6)
+    pyglet.clock.schedule_interval(update_city, 200)
     pyglet.app.run()
