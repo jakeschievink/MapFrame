@@ -4,7 +4,7 @@ import json, random, os, tkinter
 
 root = tkinter.Tk()
 font = ImageFont.truetype("/usr/share/fonts/TTF/DejaVuSans-BoldOblique.ttf", 18)
-#font = ImageFont.truetype("/usr/share/fonts/truetypefont/DejaVuSans-BoldOblique.ttf", 18)
+#font = ImageFont.truetype(" /usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf", 18)
 
 with open('./citieslatlong.json') as f:
     cities = json.load(f)
