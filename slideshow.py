@@ -17,25 +17,8 @@ city = random.choice(cities)
 images = ["1.jpg","2.jpg","3.jpg","6.jpg"]
 image_pos = 0
 
-def update_pan_zoom_speeds():
-    global _pan_speed_x
-    global _pan_speed_y
-    global _zoom_speed
-    _pan_speed_x = random.randint(-8, 8)
-    _pan_speed_y = random.randint(-8, 8)
-    _zoom_speed = random.uniform(-0.02, 0.02)
-    return _pan_speed_x, _pan_speed_y, _zoom_speed
-
-
-def update_pan(dt):
-    sprite.x += dt * _pan_speed_x
-    sprite.y += dt * _pan_speed_y
-
-
-def update_zoom(dt):
-    sprite.scale += dt * _zoom_speed
-
 def update_city(dt):
+    global city
     city = random.choice(cities)
 
 def update_image(dt):
