@@ -9,7 +9,7 @@ font = ImageFont.truetype("/usr/share/fonts/TTF/DejaVuSans-BoldOblique.ttf", 18)
 with open('./citieslatlong.json') as f:
     cities = json.load(f)
 
-image_size = (root.winfo_screenwidth,root.winfo_screenheight)
+image_size = (1024,1280)
 
 
 def set_markers(staticmap, zoom_level,random_city):
