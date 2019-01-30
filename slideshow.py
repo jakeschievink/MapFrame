@@ -17,6 +17,9 @@ city = random.choice(cities)
 images = ["1.jpg","2.jpg","3.jpg","6.jpg"]
 image_pos = 0
 
+
+
+
 def update_city(dt):
     global city
     city = random.choice(cities)
@@ -28,7 +31,6 @@ def update_image(dt):
     sprite.scale = get_scale(window, img)
     sprite.x = 0
     sprite.y = 0
-    update_pan_zoom_speeds()
     if image_pos > 2:
         image_pos = 0
     else: 
