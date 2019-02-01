@@ -8,7 +8,7 @@ ciry_dir=random.choice(cities)
 def mapframe():
     if request.method == 'POST':
         if request.form['new_map_button']:
-            print("did it")
+            new_city()
             return render_template('index.html')
     else:
         return render_template('index.html')

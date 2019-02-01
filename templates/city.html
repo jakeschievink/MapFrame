@@ -1,4 +1,13 @@
-<img id="img" src={{ image_dir }}>
+<style>
+body {
+	position: absolute;
+	left: -10px;
+	top: -10px;
+}
+</style>
+<body>
+	<img id="img" src={{ image_dir }}>
+</body>
 <script>
 	function changeImage(a) {
 		document.getElementById("img").src=a;
