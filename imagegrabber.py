@@ -26,7 +26,7 @@ def get_map_obj_with_center_mark(random_city,x_size=image_size[0],y_size=image_s
     return static_map
 
 def save_labeled_map(map_to_save, random_city, zoom):
-    img_dir = './citymaps/'
+    img_dir = './static/citymaps/'
     name = random_city['name']
     try:
         os.mkdir(img_dir+"/"+name)
