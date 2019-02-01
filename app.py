@@ -3,7 +3,8 @@ import glob, random
 app = Flask(__name__)
 cities = glob.glob("./static/citymaps/*/") 
 image_pos=0
-ciry_dir=random.choice(cities)
+city_dir=random.choice(cities)
+
 @app.route("/",methods = ['POST', 'GET'])
 def mapframe():
     if request.method == 'POST':
