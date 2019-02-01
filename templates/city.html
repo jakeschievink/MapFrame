@@ -1,0 +1,30 @@
+<img id="img" src={{ image_dir }}>
+<script>
+	function changeImage(a) {
+		document.getElementById("img").src=a;
+	}
+	function httpGetAsync(theUrl, callback)
+	{
+		var xmlHttp = new XMLHttpRequest();
+		xmlHttp.onreadystatechange = function() { 
+		    if (xmlHttp.readyState == 4 && xmlHttp.status == 200)
+				callback(xmlHttp.responseText);
+		}
+		xmlHttp.open("GET", theUrl, true); // true for asynchronous 
+		xmlHttp.send(null);
+	}
+	var image_url=""
+	function newUrl(){
+		httpGetAsync("http://localhost/city_url", function(response){
+			image_url=response;
+			changeImage(image_url);
+		});
+	}
+	function newCity(){
+		httpGetAsync("http://localhost/new_city", function(response){
+			console.log("new")	
+		});
+	}
+	setInterval(newCity, 20000);
+	setInterval(newUrl, 5000);
+</script>
