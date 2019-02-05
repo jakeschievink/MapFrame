@@ -1,18 +1,42 @@
 <style>
-body {
-	width: 100%;
-	height: 100%;
-	margin: 0px;
-	padding: 0px;
-	overflow-x: hidden; 
+@font-face {
+	font-family: "Signika-Bold";
+	src: url("/static/fonts/Signika-Bold.ttf");
+
 }
+	body {
+		width: 100%;
+		height: 100%;
+		margin: 0px;
+		padding: 0px;
+		overflow-x: hidden; 
+	}
+	#city_info {
+		font-family: 'Signika-Bold';
+		font-size: 30px;
+		color: white;
+		text-shadow: -2px 0 black, 0 2px black, 2px 0 black, 0 -2px black;
+		position:absolute;
+		top: 100px;
+		left: 100px;
+	}
 </style>
 <body>
-	<img id="img" src={{ image_dir }}>
+	<div id="city_info"></div>
+	<img id="img" src="">
 </body>
 <script>
+	var image_url=""
+	var city_info={}
 	function changeImage(a) {
 		document.getElementById("img").src=a;
+	}
+	function updateInfo(city_data){
+		if(Object.entries(city_data).length === 0){
+			document.getElementById("city_info").innerHTML = "loading"
+		}else{
+			document.getElementById("city_info").innerHTML = city_data.name + ", " + city_data.country_name
+		}
 	}
 	function httpGetAsync(theUrl, callback)
 	{
@@ -24,7 +48,6 @@ body {
 		xmlHttp.open("GET", theUrl, true); // true for asynchronous 
 		xmlHttp.send(null);
 	}
-	var image_url=""
 	function newUrl(){
 		httpGetAsync("http://localhost/city_url", function(response){
 			image_url=response;
@@ -33,9 +56,13 @@ body {
 	}
 	function newCity(){
 		httpGetAsync("http://localhost/new_city", function(response){
-			console.log("new")	
+			city_info=response
+			console.log("new city")
+			updateInfo(JSON.parse(city_info))
+			
 		});
 	}
+	newCity();
 	setInterval(newCity, 200000);
 	setInterval(newUrl, 7000);
 </script>

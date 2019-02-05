@@ -44,5 +44,5 @@ class MapImageGrabber():
         self.save_map(furthest_map,random_city,"3")
         far_far__map = self.get_map_obj_with_center_mark(random_city, zoom=6)
         self.save_map(far_far__map,random_city, "6")
-        with open(self.image_dir+random_city_name+'/'+random_city_name+'.json', 'w') as outfile:
+        with open(self.image_dir+random_city_name+'/city_data.json', 'w') as outfile:
             json.dump(random_city, outfile)
