@@ -48,11 +48,23 @@
 		xmlHttp.open("GET", theUrl, true); // true for asynchronous 
 		xmlHttp.send(null);
 	}
+
 	function newUrl(){
 		httpGetAsync("http://localhost/city_url", function(response){
 			image_url=response;
+			city_info = getCityData()
+			updateInfo(JSON.parse(city_info))
 			changeImage(image_url);
 		});
+	}
+	
+	
+	function getCityData(){
+		httpGetAsync("http://localhost/city_data", function(response){
+			city_info=response
+			console.log("new city")
+			updateInfo(JSON.parse(city_info))
+		}
 	}
 	function newCity(){
 		httpGetAsync("http://localhost/new_city", function(response){
