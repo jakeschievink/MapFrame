@@ -13,16 +13,24 @@
 	}
 	#city_info {
 		font-family: 'Signika-Bold';
-		font-size: 30px;
 		color: white;
 		text-shadow: -2px 0 black, 0 2px black, 2px 0 black, 0 -2px black;
 		position:absolute;
 		top: 100px;
 		left: 100px;
 	}
+	#primary_stats {
+		font-size: 40px;
+	}
+	#seconday_stats {
+		font-size: 20px;
+	}
 </style>
 <body>
-	<div id="city_info"></div>
+	<div id="city_info">
+		<div id="primary_stats"></div>
+		<div id="seconday_stats"></div>
+	</div>
 	<img id="img" src="">
 </body>
 <script>
@@ -33,9 +41,10 @@
 	}
 	function updateInfo(city_data){
 		if(Object.entries(city_data).length === 0){
-			document.getElementById("city_info").innerHTML = "loading"
+			document.getElementById("primary_stats").innerHTML = "loading"
 		}else{
-			document.getElementById("city_info").innerHTML = city_data.name + ", " + city_data.country_name
+			document.getElementById("primary_stats").innerHTML = city_data.name + ", " + city_data.country_name 
+			document.getElementById("seconday_stats").innerHTML = "LAT: "+city_data.lat+"<br> LNG: "+city_data.lng
 		}
 	}
 	function httpGetAsync(theUrl, callback)
