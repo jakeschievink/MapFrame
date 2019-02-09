@@ -36,9 +36,11 @@
 <script>
 	var image_url=""
 	var city_info={}
+
 	function changeImage(a) {
 		document.getElementById("img").src=a;
 	}
+
 	function updateInfo(city_data){
 		if(Object.entries(city_data).length === 0){
 			document.getElementById("primary_stats").innerHTML = "loading"
@@ -61,7 +63,6 @@
 	function newUrl(){
 		httpGetAsync("http://localhost/city_url", function(response){
 			image_url=response;
-			updateCityData()
 			changeImage(image_url);
 		});
 	}
@@ -77,6 +78,7 @@
 	function newCity(){
 		httpGetAsync("http://localhost/new_city", function(response){
 			city_info=response
+			updateCityData()
 			console.log("new city")
 			updateInfo(JSON.parse(city_info))
 			
