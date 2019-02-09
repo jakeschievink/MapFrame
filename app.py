@@ -1,5 +1,5 @@
 from flask import Flask, request, render_template, jsonify
-import glob, random, json
+import glob, random, json, requests, pdb
 app = Flask(__name__)
 cities = glob.glob("./static/data_maps/*/") 
 image_pos=0
@@ -11,6 +11,9 @@ def get_city_data():
     return data
 
 city_info=get_city_data()
+
+def k_to_f(k):
+    return ((k - 273) * 1.8 ) + 32
 
 @app.route("/",methods = ['POST', 'GET'])
 def mapframe():
@@ -38,6 +41,11 @@ def new_city():
 def city_data():
     global city_info
     city_info=get_city_data()
+    weather_response = json.loads(get_weather())
+    weather = weather_response["weather"][0]["main"]
+    temperature = str(int(k_to_f(weather_response["main"]["temp"])))
+    city_info["weather"] = weather
+    city_info["temperature"] = temperature
     return jsonify(city_info)
 
 @app.route("/city_url")
@@ -53,6 +61,12 @@ def city_url():
         image_pos = 0
     return image_dir
 
-
+@app.route("/get_weather")
+def get_weather():
+    global city_info
+    url = "http://api.openweathermap.org/data/2.5/weather?lat="+city_info["lat"]+"&lon="+city_info["lng"]+"&APPID=5b78504886ddcfc0bc5d2dc0129d0d82"
+    response = requests.get(url)
+    return response.text
+    
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=80)
