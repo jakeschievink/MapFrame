@@ -35,6 +35,11 @@ def new_city():
     global city_info
     city_dir = random.choice(cities) 
     city_info = get_city_data()
+    weather_response = json.loads(get_weather())
+    weather = weather_response["weather"][0]["main"]
+    temperature = str(int(k_to_f(weather_response["main"]["temp"])))
+    city_info["weather"] = weather
+    city_info["temperature"] = temperature
     return jsonify(city_info)
 
 @app.route("/city_data")
