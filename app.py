@@ -24,9 +24,12 @@ def mapframe():
     else:
         return render_template('index.html')
 
-
 @app.route("/city")
 def city():
+    return render_template("interactive_city.html")
+
+@app.route("/offline_city")
+def offline_city():
     return render_template("city.html")
 
 @app.route("/new_city")
