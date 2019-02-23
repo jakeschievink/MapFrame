@@ -1,0 +1,124 @@
+<style>
+@font-face {
+	font-family: "Signika-Bold";
+	src: url("/static/fonts/Signika-Bold.ttf");
+
+}
+	body {
+		width: 100%;
+		height: 100%;
+		margin: 0px;
+		padding: 0px;
+		overflow-x: hidden; 
+	}
+	#city_info {
+		font-family: 'Signika-Bold';
+		color: white;
+		text-shadow: -2px 0 black, 0 2px black, 2px 0 black, 0 -2px black;
+		position:absolute;
+		top: 100px;
+		left: 100px;
+		z-index: 100;
+	}
+	#primary_stats {
+		font-size: 40px;
+	}
+	#seconday_stats {
+		font-size: 20px;
+	}
+	#mapid {
+		z-index: 1;
+		position:absolute;
+		top: 0px;
+		left: 0px;
+		height: 100%;
+		width: 100%;
+	}
+</style>
+<link rel="stylesheet" href="/static/leaflet/leaflet.css" />
+<script src="/static/leaflet/leaflet.js"></script>
+<body>
+	<div id="city_info">
+		<div id="primary_stats"></div>
+		<div id="seconday_stats"></div>
+	</div>
+	<div id="mapid"></div>
+</body>
+
+<script>
+	var image_url=""
+	var city_info={}
+	var mymap = L.map('mapid').setView([21.505, 20.09], 14)
+	L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWVhdGNvbXB1dGVyIiwiYSI6ImNqcm9keHdseDEyajI0NHRrNm15OHFvd3cifQ.VhqpdUXjGxSlUK9bgeFP3g', {
+	    attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+	    maxZoom: 18,
+	    id: 'mapbox.streets',
+}).addTo(mymap);
+
+	
+
+	var mapModule = (function () {
+	    var zoom_level = 14; // Private Variable
+	    var pub = {};// public object - returned at end of module
+	    pub.changeZoom = function () {
+		    if(zoom_level > 1 ){
+			    mymap.setZoom(zoom_level)
+			    zoom_level = zoom_level - 2;
+		    }else{
+			    zoom_level = 14
+		    }
+	    };
+
+	    pub.changePosition = function(city_data) {
+		mymap.setView([city_data.lat, city_data.lng, zoom_level])
+	    }
+
+	    return pub; // expose externally
+	}());
+
+	function updateInfo(city_data){
+		if(Object.entries(city_data).length === 0){
+			document.getElementById("primary_stats").innerHTML = "loading"
+		}else{
+			document.getElementById("primary_stats").innerHTML = city_data.name + ", " + city_data.country_name  
+			document.getElementById("seconday_stats").innerHTML = "Weather: "+ city_data.weather + "<br>Temperature: "+city_data.temperature + "<br>LAT: "+city_data.lat+"<br> LNG: "+city_data.lng
+		}
+	}
+	function httpGetAsync(theUrl, callback)
+	{
+		var xmlHttp = new XMLHttpRequest();
+		xmlHttp.onreadystatechange = function() { 
+		    if (xmlHttp.readyState == 4 && xmlHttp.status == 200)
+				callback(xmlHttp.responseText);
+		}
+		xmlHttp.open("GET", theUrl, true); // true for asynchronous 
+		xmlHttp.send(null);
+	}
+
+	function newUrl(){
+		httpGetAsync("http://localhost/city_url", function(response){
+			image_url=response;
+		});
+	}
+	
+	
+	function updateCityData(){
+		httpGetAsync("http://localhost/city_data", function(response){
+			city_info=JSON.parse(response)
+			console.log("new city")
+			updateInfo(city_info)
+		});
+	}
+	function newCity(){
+		httpGetAsync("http://localhost/new_city", function(response){
+			city_info=JSON.parse(response)
+			console.log("new city")
+			updateInfo(city_info)
+			mapModule.changePosition(city_info)
+			
+		});
+	}
+	newCity();
+	setInterval(newCity, 2000000);
+	setInterval(mapModule.changeZoom, 5000);
+</script>
