@@ -28,7 +28,6 @@ def city():
 
 @app.route("/new_city")
 def new_city():
-    global city_dir
     global city_info
     city_info = get_random_city()
     weather_response = json.loads(get_weather())
