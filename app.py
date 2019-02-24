@@ -1,5 +1,5 @@
 from flask import Flask, request, render_template, jsonify
-import glob, random, json, requests, pdb
+import glob, random, json, requests, pdb, sqlite3
 app = Flask(__name__)
 
 def get_random_city():
@@ -17,6 +17,7 @@ def k_to_f(k):
 def mapframe():
     if request.method == 'POST':
         if request.form['new_map_button']:
+            user_selected_cities = request.form['cities'].split(',')
             new_city()
             return render_template('index.html')
     else:
