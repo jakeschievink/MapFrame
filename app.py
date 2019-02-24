@@ -37,7 +37,7 @@ def new_city():
     city_info["temperature"] = temperature
     return jsonify(city_info)
 
-@app.route("/city_data")
+@app.route("/current_city_data")
 def city_data():
     global city_info
     weather_response = json.loads(get_weather())

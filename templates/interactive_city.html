@@ -61,7 +61,7 @@
 	    var zoom_level = 14; // Private Variable
 	    var pub = {};// public object - returned at end of module
 	    pub.changeZoom = function () {
-		    if(zoom_level > 1 ){
+		    if(zoom_level > 2 ){
 			    mymap.setZoom(zoom_level)
 			    zoom_level = zoom_level - 2;
 		    }else{
@@ -84,6 +84,7 @@
 			document.getElementById("seconday_stats").innerHTML = "Weather: "+ city_data.weather + "<br>Temperature: "+city_data.temperature + "<br>LAT: "+city_data.lat+"<br> LNG: "+city_data.lng
 		}
 	}
+
 	function httpGetAsync(theUrl, callback)
 	{
 		var xmlHttp = new XMLHttpRequest();
@@ -103,10 +104,11 @@
 	
 	
 	function updateCityData(){
-		httpGetAsync("http://localhost/city_data", function(response){
+		httpGetAsync("http://localhost/current_city_data", function(response){
 			city_info=JSON.parse(response)
 			console.log("new city")
 			updateInfo(city_info)
+			mapModule.changePosition(city_info)
 		});
 	}
 	function newCity(){
@@ -120,6 +122,6 @@
 	}
 	newCity();
 	setInterval(newCity, 2000000);
-	setInterval(mapModule.changeZoom, 5000);
-	setInterval(updateCityData, 5000);
+	setInterval(mapModule.changeZoom, 10000);
+	setInterval(updateCityData, 10000);
 </script>
