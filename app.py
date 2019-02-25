@@ -27,7 +27,7 @@ def add_city(cities):
     lat = geoname_city['features'][0]['properties']['lat']
     lng = geoname_city['features'][0]['properties']['lng']
 
-    sql_string =f"INSERT INTO cities(name, country, sub_country, country_code, population, description, lat, lng) VALUES('{name}', '{country}', '{sub_country}', '{country_code}', '{population}', '{description}', '{lat}', '{lng}')" 
+    sql_string ="INSERT INTO cities(name, country, sub_country, country_code, population, description, lat, lng) VALUES('"+name+"'}', '"+country+"', '"+sub_country+"', '"+country_code+"', '"+population+"', '"+description+"', '"+lat+"', '"+lng+"')" 
     cur.execute(sql_string)
     conn.commit()
     conn.close()
