@@ -99,14 +99,14 @@
 	}
 
 	function newUrl(){
-		httpGetAsync("http://localhost/city_url", function(response){
+		httpGetAsync("/city_url", function(response){
 			image_url=response;
 		});
 	}
 	
 	
 	function updateCityData(){
-		httpGetAsync("http://localhost/current_city_data", function(response){
+		httpGetAsync("/current_city_data", function(response){
 			city_info=JSON.parse(response)
 			console.log("new city")
 			updateInfo(city_info)
@@ -115,7 +115,7 @@
 	}
 
 	function newCity(){
-		httpGetAsync("http://localhost/new_city", function(response){
+		httpGetAsync("/new_city", function(response){
 			city_info=JSON.parse(response)
 			console.log("new city")
 			updateInfo(city_info)
