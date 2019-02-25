@@ -27,7 +27,6 @@ def add_city(cities):
     lat = geoname_city['features'][0]['properties']['lat']
     lng = geoname_city['features'][0]['properties']['lng']
 
-    pdb.set_trace()
     sql_string ="INSERT INTO cities(name, country, sub_country, country_code, population, description, lat, lng) VALUES('"+name+"', '"+country+"', '"+sub_country+"', '"+country_code+"', '"+str(population)+"', '"+description+"', '"+lat+"', '"+lng+"')" 
     cur.execute(sql_string)
     conn.commit()
@@ -95,7 +94,6 @@ def new_city():
 @app.route("/city_list")
 def city_list():
     city_list = get_city_list_from_database()
-    pdb.set_trace()
     return jsonify(city_list)
 
 @app.route("/current_city_data")
