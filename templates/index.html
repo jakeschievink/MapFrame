@@ -22,7 +22,7 @@
 		xmlHttp.send(null);
 	}
 	function updateCityList(){
-		httpGetAsync("http://localhost/city_list", function(response){
+		httpGetAsync("/city_list", function(response){
 			var city_info = JSON.parse(response)
 			for(var i in city_info) {
 				console.log(city_info[i]);

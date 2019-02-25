@@ -72,6 +72,7 @@
 
 	    pub.changePosition = function(city_data) {
 		mymap.setView([city_data.lat, city_data.lng, zoom_level])
+		var marker = L.marker([city_data.lat, city_data.lng]).addTo(mymap);
 	    }
 
 	    return pub; // expose externally
