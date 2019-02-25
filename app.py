@@ -27,11 +27,21 @@ def add_city(cities):
     lat = geoname_city['features'][0]['properties']['lat']
     lng = geoname_city['features'][0]['properties']['lng']
 
-    sql_string ="INSERT INTO cities(name, country, sub_country, country_code, population, description, lat, lng) VALUES('"+name+"'}', '"+country+"', '"+sub_country+"', '"+country_code+"', '"+population+"', '"+description+"', '"+lat+"', '"+lng+"')" 
+    pdb.set_trace()
+    sql_string ="INSERT INTO cities(name, country, sub_country, country_code, population, description, lat, lng) VALUES('"+name+"', '"+country+"', '"+sub_country+"', '"+country_code+"', '"+str(population)+"', '"+description+"', '"+lat+"', '"+lng+"')" 
     cur.execute(sql_string)
     conn.commit()
     conn.close()
     return cur.lastrowid
+
+def get_city_list_from_database():
+    conn = sqlite3.connect('./custom_cities.db')
+    cur = conn.cursor()
+    sql_string = "SELECT * FROM cities"
+    cur.execute(sql_string)
+    cities = cur.fetchall()
+    conn.close()
+    return cities
 
 def get_random_city_from_database():
     conn = sqlite3.connect('./custom_cities.db')
@@ -81,6 +91,12 @@ def new_city():
     city_info["weather"] = weather
     city_info["temperature"] = temperature
     return jsonify(city_info)
+
+@app.route("/city_list")
+def city_list():
+    city_list = get_city_list_from_database()
+    pdb.set_trace()
+    return jsonify(city_list)
 
 @app.route("/current_city_data")
 def city_data():

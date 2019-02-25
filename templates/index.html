@@ -1,6 +1,35 @@
 
 
 <form action = "/" method = "POST">
-	<input type="cities" name="cities" placeholder="Cities You Want To See">
-	<input type="submit" name="new_map_button" value="New Map">
+	<input type="cities" name="cities" placeholder="Type City You Want To See On The Map">
+	<br>
+	<input type="submit" name="new_map_button" value="Add City">
+	<br>
+	<div id="city_list">
+		<h3>Currently Circulating Cities:</h3>
+	</div>
+
 </form>
+<script>
+	function httpGetAsync(theUrl, callback)
+	{
+		var xmlHttp = new XMLHttpRequest();
+		xmlHttp.onreadystatechange = function() { 
+			if (xmlHttp.readyState == 4 && xmlHttp.status == 200)
+				callback(xmlHttp.responseText);
+			}
+		xmlHttp.open("GET", theUrl, true); // true for asynchronous 
+		xmlHttp.send(null);
+	}
+	function updateCityList(){
+		httpGetAsync("http://localhost/city_list", function(response){
+			var city_info = JSON.parse(response)
+			for(var i in city_info) {
+				console.log(city_info[i]);
+				city_list_div = document.getElementById('city_list');
+				city_list_div.innerHTML += "<p>"+city_info[i][0]+", "+city_info[i][2]+", "+city_info[i][1]+"<br></p>";
+			}
+		})
+	}
+	updateCityList()
+</script>
