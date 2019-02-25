@@ -1,5 +1,5 @@
 from flask import Flask, request, render_template, jsonify
-import glob, random, json, requests, pdb, sqlite3
+import glob, random, json, requests, pdb, sqlite3, datagrabber
 app = Flask(__name__)
 
 def get_random_city():
@@ -9,15 +9,57 @@ def get_random_city():
     return chosen_city
 
 city_info=get_random_city()
+dg = datagrabber.DataGrabber()
 
 def k_to_f(k):
     return ((k - 273) * 1.8 ) + 32
+
+def add_city(cities):
+    conn = sqlite3.connect('./custom_cities.db')
+    cur = conn.cursor()
+    geoname_city=dg.get_geoname_data(cities[0])
+    name = geoname_city['features'][0]['properties']['address']
+    country = geoname_city['features'][0]['properties']['country']
+    sub_country = geoname_city['features'][0]['properties']['state']
+    population = geoname_city['features'][0]['properties']['population']
+    country_code = geoname_city['features'][0]['properties']['country_code']
+    description = geoname_city['features'][0]['properties']['description']
+    lat = geoname_city['features'][0]['properties']['lat']
+    lng = geoname_city['features'][0]['properties']['lng']
+
+    sql_string =f"INSERT INTO cities(name, country, sub_country, country_code, population, description, lat, lng) VALUES('{name}', '{country}', '{sub_country}', '{country_code}', '{population}', '{description}', '{lat}', '{lng}')" 
+    cur.execute(sql_string)
+    conn.commit()
+    conn.close()
+    return cur.lastrowid
+
+def get_random_city_from_database():
+    conn = sqlite3.connect('./custom_cities.db')
+    cur = conn.cursor()
+    sql_string = "SELECT * FROM cities"
+    cur.execute(sql_string)
+    cities = cur.fetchall()
+    city = random.choice(cities)
+    conn.close()
+    random_city_info={
+            "name": city[0],
+            "country_name": city[1],
+            "sub_country":city[2],
+            "country_code":city[3],
+            "population":city[4],
+            "description":city[5],
+            "lat":city[6],
+            "lng":city[7]
+            }
+
+    return random_city_info
 
 @app.route("/",methods = ['POST', 'GET'])
 def mapframe():
     if request.method == 'POST':
         if request.form['new_map_button']:
             user_selected_cities = request.form['cities'].split(',')
+            add_city(user_selected_cities)
             new_city()
             return render_template('index.html')
     else:
@@ -27,10 +69,12 @@ def mapframe():
 def city():
     return render_template("interactive_city.html")
 
+
+    
 @app.route("/new_city")
 def new_city():
     global city_info
-    city_info = get_random_city()
+    city_info = get_random_city_from_database()
     weather_response = json.loads(get_weather())
     weather = weather_response["weather"][0]["main"]
     temperature = str(int(k_to_f(weather_response["main"]["temp"])))
