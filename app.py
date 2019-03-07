@@ -66,10 +66,7 @@ def get_random_city_from_database():
 @app.route("/",methods = ['POST', 'GET'])
 def mapframe():
     if request.method == 'POST':
-        if request.form['new_map_button']:
-            new_city()
-            return render_template('index.html')
-        if request.form['add_city_button']:
+            pdb.set_trace()
             user_selected_cities = request.form['cities'].split(',')
             add_city(user_selected_cities)
             new_city()
