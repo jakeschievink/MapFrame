@@ -42,6 +42,15 @@ def get_city_list_from_database():
     conn.close()
     return cities
 
+def delete_city_from_database(lat):
+    conn = sqlite3.connect('./custom_cities.db')
+    cur = conn.cursor()
+    sql_string = "DELETE FROM cities where lat="+str(lat)
+    cur.execute(sql_string)
+    conn.commit()
+    conn.close()
+    return "deleted"
+
 def get_random_city_from_database():
     conn = sqlite3.connect('./custom_cities.db')
     cur = conn.cursor()
@@ -66,7 +75,6 @@ def get_random_city_from_database():
 @app.route("/",methods = ['POST', 'GET'])
 def mapframe():
     if request.method == 'POST':
-            pdb.set_trace()
             user_selected_cities = request.form['cities'].split(',')
             add_city(user_selected_cities)
             new_city()
@@ -90,6 +98,13 @@ def new_city():
     city_info["weather"] = weather
     city_info["temperature"] = temperature
     return jsonify(city_info)
+
+@app.route("/delete_city")
+def delete_city():
+    lat = request.args['lat']
+    delete_city_from_database(lat)
+    return render_template('index.html')
+
 
 @app.route("/city_list")
 def city_list():

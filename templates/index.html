@@ -28,7 +28,7 @@
 			for(var i in city_info) {
 				console.log(city_info[i]);
 				city_list_div = document.getElementById('city_list');
-				city_list_div.innerHTML += "<p>"+city_info[i][0]+", "+city_info[i][2]+", "+city_info[i][1]+"<br></p>";
+				city_list_div.innerHTML +="<p><a href='/delete_city?lat="+city_info[i][6]+"'>remove</a>"+city_info[i][0]+", "+city_info[i][2]+", "+city_info[i][1]+"<br></p>";
 			}
 		})
 	}
