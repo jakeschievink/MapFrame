@@ -11,14 +11,14 @@ L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=p
 
 
 var mapModule = (function () {
-	var zoom_level = 15; // Private Variable
+	var zoom_level = 16; // Private Variable
 	var pub = {};// public object - returned at end of module
 	pub.changeZoom = function () {
-		if(zoom_level > 10 ){
+		if(zoom_level > 8 ){
 			mymap.setZoom(zoom_level)
 			zoom_level = zoom_level - 1;
 		}else{
-			zoom_level = 15
+			zoom_level = 16
 		}
 	};
 
@@ -77,5 +77,5 @@ function newCity(){
 }
 newCity();
 setInterval(newCity, 2000000);
-setInterval(mapModule.changeZoom, 60000);
-setInterval(updateCityData, 60000);
+setInterval(mapModule.changeZoom, 30000);
+setInterval(updateCityData, 30000);
