@@ -1,3 +1,4 @@
 ./static/data_maps/*
 ./custom_cities.db
+custom_cities.db
 ./*.db
