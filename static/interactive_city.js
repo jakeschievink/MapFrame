@@ -35,7 +35,7 @@ function updateInfo(city_data){
 		document.getElementById("primary_stats").innerHTML = "loading"
 	}else{
 		document.getElementById("primary_stats").innerHTML = city_data.name + ", "+ city_data.sub_country+ ", "+ city_data.country_name  
-		document.getElementById("seconday_stats").innerHTML = "Weather: "+ city_data.weather + "<br>Temperature: "+city_data.temperature + "<br>LAT: "+city_data.lat+"<br> LNG: "+city_data.lng
+		document.getElementById("seconday_stats").innerHTML = "Population: "+city_data.population+"<br>Weather: "+ city_data.weather + "<br>Temperature: "+city_data.temperature + "<br>LAT: "+city_data.lat+"<br> LNG: "+city_data.lng
 	}
 }
 
