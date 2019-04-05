@@ -14,9 +14,9 @@ var mapModule = (function () {
 	var zoom_level = 16; // Private Variable
 	var pub = {};// public object - returned at end of module
 	pub.changeZoom = function () {
-		if(zoom_level > 2 ){
+		if(zoom_level > 5 ){
 			mymap.setZoom(zoom_level)
-			zoom_level = zoom_level - 3;
+			zoom_level = zoom_level - 1;
 		}else{
 			zoom_level = 16
 		}
